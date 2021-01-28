@@ -1,0 +1,159 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.App {
+  text-align: left;
+  background: #0a0014;
+  height: 100%;
+  min-height: 100vh;
+  font-size: 1em;
+}
+
+.title {
+  color: #FFBCCE;
+  padding: 10px;
+  display: inline-block;
+}
+
+.para {
+  color: white;
+  padding: 10px;
+}
+
+.footing {
+  color: white;
+  
+}
+
+.clickable {
+  transition: .2s ease-in-out;
+}
+
+.clickable:hover {
+  cursor: pointer;
+  transform: scale(1.05);
+}
+
+.clickable:hover .lightpink-txt,
+.lightblue-txt {
+  color: #4040F8;
+}
+
+.rotatable {
+  transition: 1s ease-in-out;
+}
+
+.rotatable:hover {
+  cursor: pointer;
+  transform: rotate(360deg);
+
+}
+
+.center {
+  text-align: center;
+}
+
+.padding-px {
+  padding: 10px;
+}
+
+* .margin-sm {
+  margin: .2em;
+}
+p .margin-sm {
+  margin: 0 .2em;
+}
+
+.white-txt {
+  color: white;
+}
+
+.lightpink-txt {
+  color: #FFBCCE;
+}
+
+.flex-evenly {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+}
+
+.section {
+  height: 20em;
+  font-size: 1.25em;
+}
+
+.svg-bg {
+  min-width: 100vw;
+  width: 100%;
+  height: auto;
+}
+
+.mask {
+  background-color: red;
+  height: 100vh;
+}
+
+h1 {
+  position: fixed;
+  z-index: 5;
+  font-size: 6em;
+  text-shadow: 
+  1px 0px 1px #ccc, 0px 1px 1px #eee, 
+  2px 1px 1px #ccc, 1px 2px 1px #eee,
+  3px 2px 1px #ccc, 2px 3px 1px #eee,
+  4px 3px 1px #ccc, 3px 4px 1px #eee,
+  5px 4px 1px #ccc, 4px 5px 1px #eee,
+  6px 5px 1px #ccc, 5px 6px 1px #eee,
+  7px 6px 1px #ccc;
+}
+
+
+main {
+  z-index: 12;
+  background: rgb(10,0,20);
+background: linear-gradient(0deg, rgba(10,0,20,1) 0%, rgba(38,17,66,1) 95%);
+}
+
+footer {
+  margin-top: -.1em;
+  min-height: 10em;
+  height: auto;
+  background-color: #0a0014;
+}
+
+#sky {
+  position: fixed;
+  width: 100vw;
+  height: 50em;
+  background: rgb(200,208,254);
+  background: linear-gradient(0deg, rgba(200,208,254,1) 0%, rgba(152,165,237,1) 100%);
+}
+
+#exit-btn {
+  border-radius: 50%;
+}
+#exit-btn:hover {
+  background-color: white;
+
+}
+
+
+@media only screen and (max-width: 800px) {
+  .App {
+    font-size: .75em;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .App {
+    font-size: .5em;
+  }
+}
