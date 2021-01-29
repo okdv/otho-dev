@@ -70,7 +70,6 @@ function App() {
                   </p>
                 </div>
               </div>
-
             </main>
             <Footer />
           </ParallaxLayer>

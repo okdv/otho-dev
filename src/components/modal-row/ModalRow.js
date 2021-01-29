@@ -6,13 +6,16 @@ import LinkBox from '../link-box/LinkBox'
 const ModalRow = (props) => {
     return (
         <div className="section">
-            <h2 className="title">This is a header</h2>
+            <h2 className="title">{props.title}</h2>
             <div className="flex-evenly">
                 <LinkBox row={props.rowId} />
                 <LinkBox row={props.rowId} />
                 <LinkBox row={props.rowId} />
             </div>
-            <p className="para center">This is a subtitle</p>
+            {
+                props.subtitle && props.subtitle != null ? 
+                (<p className="para center">{props.subtitle}</p>) : null
+            }
         </div>
     )
 }
