@@ -1,0 +1,97 @@
+type SiteData @model {
+  id: ID!
+  name: String!
+  description: String
+  ownerFormal: String!
+  ownerCasual: String
+  favicon: String
+  url: String
+  socials: [SocialMedia] @connection(name: "SiteSocials")
+  pages: [Page] @connection(name: "SitePages")
+}
+
+type Page @model {
+  id: ID!
+  name: String!
+  site: SiteData @connection(name: "SitePages")
+  description: String
+  public: Boolean!
+  title: String
+  alert: String
+  endpoint: String
+  sections: [Section] @connection(name: "PageSections")
+}
+
+type Section @model {
+  id: ID!
+  name: String!
+  page: Page @connection(name: "PageSections")
+  description: String
+  title: String
+  paras: [String]
+  modals: [SectionModal] @connection(keyName: "bySection", fields: ["id"])
+} 
+
+type SectionModal 
+  @model(queries: null) 
+  @key(name: "bySection", fields: ["sectionID", "modalID"])
+  @key(name: "byModal", fields: ["modalID", "sectionID"])
+  {
+  id: ID!
+  sectionID: ID!
+  modalID: ID!
+  section: Section! @connection(fields: ["sectionID"])
+  modal: Modal! @connection(fields: ["modalID"])
+}
+
+type Modal @model {
+  id: ID!
+  name: String!
+  description: String
+  title: String
+  paras: [String]
+  link: String
+  cta: String
+  image: String 
+  sections: [SectionModal] @connection(keyName: "byModal", fields: ["id"])
+  sidebarID: ID!
+  sidebar: ModalSidebar @connection(fields: ["sidebarID"])
+}
+
+type ModalSidebar @model {
+  id: ID!
+  name: String!
+  title: String
+  iconItems: [ModalIcon] @connection(keyName: "bySidebar", fields: ["id"])
+}
+
+type ModalIcon 
+  @model(queries: null)
+  @key(name: "bySidebar", fields: ["sidebarID", "iconID"])
+  @key(name: "byIcon", fields: ["iconID", "sidebarID"])
+  {
+  id: ID!
+  sidebarID: ID!
+  iconID: ID!
+  sidebar: ModalSidebar! @connection(fields: ["sidebarID"])
+  icon: IconItem! @connection(fields: ["iconID"])
+}
+
+type IconItem @model {
+  id: ID!
+  name: String!
+  title: String
+  link: String
+  faIcon: String
+  sidebars: [ModalIcon] @connection(keyName: "byIcon", fields: ["id"])
+}
+
+type SocialMedia @model {
+  id: ID!
+  name: String!
+  site: SiteData @connection(name: "SiteSocials")
+  title: String
+  link: String
+  faIcon: String
+  username: String
+}
