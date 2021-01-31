@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import ModalRow from "./components/modal-row/ModalRow";
 import Footer from "./components/footer/Footer"
 
+import "./App.css";
+
 import { ReactComponent as TreeLineOne } from "./assets/tree-line-01.svg";
 import { ReactComponent as TreeLineTwo } from "./assets/tree-line-02.svg";
 import { ReactComponent as MountainRangeOne } from "./assets/mountain-range-01.svg";
@@ -9,7 +11,7 @@ import { ReactComponent as MountainRangeTwo } from "./assets/mountain-range-02.s
 import { ReactComponent as CloudsOne } from "./assets/clouds-01.svg";
 
 import { Parallax, ParallaxLayer } from "react-spring/renderprops-addons";
-import { API } from 'aws-amplify'
+import Amplify, { API } from 'aws-amplify'
 import { listSiteDatas } from './graphql/queries'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -23,7 +25,8 @@ import {
   faSyncAlt
 } from "@fortawesome/free-solid-svg-icons";
 
-import "./App.css";
+import awsExports from "./aws-exports"
+Amplify.configure(awsExports)
 
 library.add(fab, faHeart, faHeadphonesAlt, faCopyright, faTimesCircle, faSyncAlt)
 
