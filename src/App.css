@@ -18,6 +18,23 @@
   display: inline-block;
 }
 
+.btn {
+  padding: .3em;
+  border-color: #4040F8; 
+  border-style: solid;
+  border-width: .15em;
+  background: none;
+  background: rgba(64,64,248,0);
+  font-size: 1.1em;
+  border-radius: 2px; 
+  transition: .15s ease-in-out;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: rgba(64,64,248,1);
+}
+
 .para {
   color: white;
   padding: 10px;
@@ -90,6 +107,35 @@ p .margin-sm {
   font-size: 1.25em;
 }
 
+.grid-3-col {
+  display: grid;
+  grid-template-columns: repeat(3,3fr);
+  width: 100%;
+}
+.grid-3-col .link-box {
+  margin: auto;
+}
+
+.grid-3-col .logo {
+  width: 100%;
+  max-width: 25vw;
+}
+
+.modal-content .sidebar {
+  max-width: 20em;
+}
+
+.sidebar-item .content-box {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.sidebar-item .content-box * {
+  margin: .2em
+}
+
+
 .svg-bg {
   min-width: 100vw;
   width: 100%;
@@ -130,11 +176,9 @@ footer {
 }
 
 #sky {
-  position: fixed;
-  width: 100vw;
   height: 50em;
   background: rgb(200,208,254);
-  background: linear-gradient(0deg, rgba(200,208,254,1) 0%, rgba(152,165,237,1) 100%);
+  background: linear-gradient(0deg, rgb(82, 0, 121)5%,rgba(180, 30, 4)10%, rgb(156, 171, 255) 70%);
 }
 
 #exit-btn {

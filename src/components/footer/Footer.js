@@ -2,9 +2,10 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const Footer = (props) => {
+  const data = props.data || {}
+  const socials = data.socials || props.data.socials || []
     return(
         <footer className="white-txt flex-evenly">
-
         <p>
           Made with{" "}
           <FontAwesomeIcon
@@ -16,51 +17,50 @@ const Footer = (props) => {
             className="margin-sm lightpink-txt"
             icon="headphones-alt"
           />{" "}
-          by Otho
+          {
+            data.ownerCasual && data.ownerCasual !== null ?
+            (<span>by {data.ownerCasual}</span>) : " "
+          }
         </p>
         <p>
-          2021
+          {
+            data.year || new Date().getFullYear()
+          }
           <FontAwesomeIcon
             className="margin-sm lightpink-txt"
             icon="copyright"
           />{" "}
-          Otho DuBois
+          {
+            data.ownerFormal || " "
+          }
         </p>
-        <div style={{ textAlign: "center" }}>
-          <span>Follow me!</span>
-          <div className="margin-sm flex-evenly">
-            <a 
-              className="clickable margin-sm"
-              href="#"
-            >
-              <FontAwesomeIcon
-                className="lightpink-txt"
-                icon={['fab', 'github']}
-                size="2x"
-              />
-            </a>
-            <a 
-              className="clickable margin-sm"
-              href="#"
-            >
-              <FontAwesomeIcon
-                className="lightpink-txt"
-                icon={['fab', 'twitter']}
-                size="2x"
-              />
-            </a>
-            <a 
-              className="clickable margin-sm"
-              href="#"
-            >
-              <FontAwesomeIcon
-                className="lightpink-txt"
-                icon={['fab', 'instagram']}
-                size="2x"
-              />
-            </a>
-          </div>
-        </div>
+        {
+          socials.length > 0 ? 
+          (
+            <div style={{ textAlign: "center" }}>
+              <span>Follow me!</span>
+              <div className="margin-sm flex-evenly">
+                {
+                  socials.map((social,i) => {
+                    return(
+                      <a 
+                        key={i}
+                        className="clickable margin-sm"
+                        href={social.link && social.link !== null ? social.link : "#"}
+                      >
+                      <FontAwesomeIcon
+                        className="lightpink-txt"
+                        icon={social.faIcon && social.faIcon !== null ? (['fab',social.faIcon]) : " "}
+                        size="2x"
+                      />
+                    </a>
+                    )
+                  })
+                }
+              </div>
+            </div>
+          ) : ""
+        }
       </footer>
     )
 }

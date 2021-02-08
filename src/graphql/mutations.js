@@ -173,6 +173,11 @@ export const createPage = /* GraphQL */ `
           description
           title
           paras
+          sectionClass
+          contentClass
+          parasClass
+          subtitleClass
+          refresh
           createdAt
           updatedAt
         }
@@ -220,6 +225,11 @@ export const updatePage = /* GraphQL */ `
           description
           title
           paras
+          sectionClass
+          contentClass
+          parasClass
+          subtitleClass
+          refresh
           createdAt
           updatedAt
         }
@@ -267,6 +277,11 @@ export const deletePage = /* GraphQL */ `
           description
           title
           paras
+          sectionClass
+          contentClass
+          parasClass
+          subtitleClass
+          refresh
           createdAt
           updatedAt
         }
@@ -323,6 +338,11 @@ export const createSection = /* GraphQL */ `
         }
         nextToken
       }
+      sectionClass
+      contentClass
+      parasClass
+      subtitleClass
+      refresh
       createdAt
       updatedAt
     }
@@ -374,6 +394,11 @@ export const updateSection = /* GraphQL */ `
         }
         nextToken
       }
+      sectionClass
+      contentClass
+      parasClass
+      subtitleClass
+      refresh
       createdAt
       updatedAt
     }
@@ -425,6 +450,11 @@ export const deleteSection = /* GraphQL */ `
         }
         nextToken
       }
+      sectionClass
+      contentClass
+      parasClass
+      subtitleClass
+      refresh
       createdAt
       updatedAt
     }
@@ -459,6 +489,11 @@ export const createSectionModal = /* GraphQL */ `
         modals {
           nextToken
         }
+        sectionClass
+        contentClass
+        parasClass
+        subtitleClass
+        refresh
         createdAt
         updatedAt
       }
@@ -474,13 +509,8 @@ export const createSectionModal = /* GraphQL */ `
         sections {
           nextToken
         }
-        sidebarID
-        sidebar {
-          id
-          name
-          title
-          createdAt
-          updatedAt
+        sidebars {
+          nextToken
         }
         createdAt
         updatedAt
@@ -519,6 +549,11 @@ export const updateSectionModal = /* GraphQL */ `
         modals {
           nextToken
         }
+        sectionClass
+        contentClass
+        parasClass
+        subtitleClass
+        refresh
         createdAt
         updatedAt
       }
@@ -534,13 +569,8 @@ export const updateSectionModal = /* GraphQL */ `
         sections {
           nextToken
         }
-        sidebarID
-        sidebar {
-          id
-          name
-          title
-          createdAt
-          updatedAt
+        sidebars {
+          nextToken
         }
         createdAt
         updatedAt
@@ -579,6 +609,11 @@ export const deleteSectionModal = /* GraphQL */ `
         modals {
           nextToken
         }
+        sectionClass
+        contentClass
+        parasClass
+        subtitleClass
+        refresh
         createdAt
         updatedAt
       }
@@ -594,13 +629,8 @@ export const deleteSectionModal = /* GraphQL */ `
         sections {
           nextToken
         }
-        sidebarID
-        sidebar {
-          id
-          name
-          title
-          createdAt
-          updatedAt
+        sidebars {
+          nextToken
         }
         createdAt
         updatedAt
@@ -634,16 +664,15 @@ export const createModal = /* GraphQL */ `
         }
         nextToken
       }
-      sidebarID
-      sidebar {
-        id
-        name
-        title
-        iconItems {
-          nextToken
+      sidebars {
+        items {
+          id
+          name
+          title
+          createdAt
+          updatedAt
         }
-        createdAt
-        updatedAt
+        nextToken
       }
       createdAt
       updatedAt
@@ -674,16 +703,15 @@ export const updateModal = /* GraphQL */ `
         }
         nextToken
       }
-      sidebarID
-      sidebar {
-        id
-        name
-        title
-        iconItems {
-          nextToken
+      sidebars {
+        items {
+          id
+          name
+          title
+          createdAt
+          updatedAt
         }
-        createdAt
-        updatedAt
+        nextToken
       }
       createdAt
       updatedAt
@@ -714,16 +742,15 @@ export const deleteModal = /* GraphQL */ `
         }
         nextToken
       }
-      sidebarID
-      sidebar {
-        id
-        name
-        title
-        iconItems {
-          nextToken
+      sidebars {
+        items {
+          id
+          name
+          title
+          createdAt
+          updatedAt
         }
-        createdAt
-        updatedAt
+        nextToken
       }
       createdAt
       updatedAt
@@ -739,6 +766,24 @@ export const createModalSidebar = /* GraphQL */ `
       id
       name
       title
+      modal {
+        id
+        name
+        description
+        title
+        paras
+        link
+        cta
+        image
+        sections {
+          nextToken
+        }
+        sidebars {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
       iconItems {
         items {
           id
@@ -763,6 +808,24 @@ export const updateModalSidebar = /* GraphQL */ `
       id
       name
       title
+      modal {
+        id
+        name
+        description
+        title
+        paras
+        link
+        cta
+        image
+        sections {
+          nextToken
+        }
+        sidebars {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
       iconItems {
         items {
           id
@@ -787,6 +850,24 @@ export const deleteModalSidebar = /* GraphQL */ `
       id
       name
       title
+      modal {
+        id
+        name
+        description
+        title
+        paras
+        link
+        cta
+        image
+        sections {
+          nextToken
+        }
+        sidebars {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
       iconItems {
         items {
           id
@@ -815,6 +896,18 @@ export const createModalIcon = /* GraphQL */ `
         id
         name
         title
+        modal {
+          id
+          name
+          description
+          title
+          paras
+          link
+          cta
+          image
+          createdAt
+          updatedAt
+        }
         iconItems {
           nextToken
         }
@@ -851,6 +944,18 @@ export const updateModalIcon = /* GraphQL */ `
         id
         name
         title
+        modal {
+          id
+          name
+          description
+          title
+          paras
+          link
+          cta
+          image
+          createdAt
+          updatedAt
+        }
         iconItems {
           nextToken
         }
@@ -887,6 +992,18 @@ export const deleteModalIcon = /* GraphQL */ `
         id
         name
         title
+        modal {
+          id
+          name
+          description
+          title
+          paras
+          link
+          cta
+          image
+          createdAt
+          updatedAt
+        }
         iconItems {
           nextToken
         }

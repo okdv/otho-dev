@@ -105,6 +105,11 @@ export const getPage = /* GraphQL */ `
           description
           title
           paras
+          sectionClass
+          contentClass
+          parasClass
+          subtitleClass
+          refresh
           createdAt
           updatedAt
         }
@@ -194,6 +199,11 @@ export const getSection = /* GraphQL */ `
         }
         nextToken
       }
+      sectionClass
+      contentClass
+      parasClass
+      subtitleClass
+      refresh
       createdAt
       updatedAt
     }
@@ -226,6 +236,11 @@ export const listSections = /* GraphQL */ `
         modals {
           nextToken
         }
+        sectionClass
+        contentClass
+        parasClass
+        subtitleClass
+        refresh
         createdAt
         updatedAt
       }
@@ -254,16 +269,15 @@ export const getModal = /* GraphQL */ `
         }
         nextToken
       }
-      sidebarID
-      sidebar {
-        id
-        name
-        title
-        iconItems {
-          nextToken
+      sidebars {
+        items {
+          id
+          name
+          title
+          createdAt
+          updatedAt
         }
-        createdAt
-        updatedAt
+        nextToken
       }
       createdAt
       updatedAt
@@ -289,13 +303,8 @@ export const listModals = /* GraphQL */ `
         sections {
           nextToken
         }
-        sidebarID
-        sidebar {
-          id
-          name
-          title
-          createdAt
-          updatedAt
+        sidebars {
+          nextToken
         }
         createdAt
         updatedAt
@@ -310,6 +319,24 @@ export const getModalSidebar = /* GraphQL */ `
       id
       name
       title
+      modal {
+        id
+        name
+        description
+        title
+        paras
+        link
+        cta
+        image
+        sections {
+          nextToken
+        }
+        sidebars {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
       iconItems {
         items {
           id
@@ -336,6 +363,18 @@ export const listModalSidebars = /* GraphQL */ `
         id
         name
         title
+        modal {
+          id
+          name
+          description
+          title
+          paras
+          link
+          cta
+          image
+          createdAt
+          updatedAt
+        }
         iconItems {
           nextToken
         }
@@ -448,6 +487,138 @@ export const listSocialMedias = /* GraphQL */ `
         link
         faIcon
         username
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const pageByEndpoint = /* GraphQL */ `
+  query PageByEndpoint(
+    $endpoint: String
+    $sortDirection: ModelSortDirection
+    $filter: ModelPageFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    pageByEndpoint(
+      endpoint: $endpoint
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        name
+        site {
+          id
+          name
+          description
+          ownerFormal
+          ownerCasual
+          favicon
+          url
+          createdAt
+          updatedAt
+        }
+        description
+        public
+        title
+        alert
+        endpoint
+        sections {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const sectionByName = /* GraphQL */ `
+  query SectionByName(
+    $name: String
+    $sortDirection: ModelSortDirection
+    $filter: ModelSectionFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    sectionByName(
+      name: $name
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        name
+        page {
+          id
+          name
+          description
+          public
+          title
+          alert
+          endpoint
+          createdAt
+          updatedAt
+        }
+        description
+        title
+        paras
+        modals {
+          nextToken
+        }
+        sectionClass
+        contentClass
+        parasClass
+        subtitleClass
+        refresh
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const sidebarByName = /* GraphQL */ `
+  query SidebarByName(
+    $name: String
+    $sortDirection: ModelSortDirection
+    $filter: ModelModalSidebarFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    sidebarByName(
+      name: $name
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        name
+        title
+        modal {
+          id
+          name
+          description
+          title
+          paras
+          link
+          cta
+          image
+          createdAt
+          updatedAt
+        }
+        iconItems {
+          nextToken
+        }
         createdAt
         updatedAt
       }

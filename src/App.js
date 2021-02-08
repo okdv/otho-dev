@@ -1,20 +1,17 @@
-import React, { useState, useEffect } from "react";
-import ModalRow from "./components/modal-row/ModalRow";
-import Footer from "./components/footer/Footer"
+import React, { useEffect, useState } from 'react'
+
+import ParallaxBackground from "./components/parallax-background/ParallaxBackground"
+import Section from "./components/section/Section"
+import LinkBox from "./components/link-box/LinkBox"
 
 import "./App.css";
+import "./utils/helpers"
 
-import { ReactComponent as TreeLineOne } from "./assets/tree-line-01.svg";
-import { ReactComponent as TreeLineTwo } from "./assets/tree-line-02.svg";
-import { ReactComponent as MountainRangeOne } from "./assets/mountain-range-01.svg";
-import { ReactComponent as MountainRangeTwo } from "./assets/mountain-range-02.svg";
-import { ReactComponent as CloudsOne } from "./assets/clouds-01.svg";
+import Amplify, { API, graphqlOperation } from 'aws-amplify'
+import awsExports from "./aws-exports"
+import { getPage, listSocialMedias } from "./graphql/queries"
+import { sectionByNameExpanded } from "./graphql/custom"
 
-import { Parallax, ParallaxLayer } from "react-spring/renderprops-addons";
-import Amplify, { API } from 'aws-amplify'
-import { listSiteDatas } from './graphql/queries'
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fab } from '@fortawesome/free-brands-svg-icons'
 import {
@@ -24,72 +21,104 @@ import {
   faTimesCircle,
   faSyncAlt
 } from "@fortawesome/free-solid-svg-icons";
+import { shuffleArray } from './utils/helpers';
 
-import awsExports from "./aws-exports"
 Amplify.configure(awsExports)
 
 library.add(fab, faHeart, faHeadphonesAlt, faCopyright, faTimesCircle, faSyncAlt)
 
 function App() {
-  const [siteDatas, setSiteDatas] = useState([]);
-  
+  const [pageData,setPageData] = useState({})
+  const [sectionData,setSectionData] = useState({
+    projects: {},
+    charities: {},
+    funFacts: {}
+  })
+  const [socialData,setSocialData] = useState([])
+
   useEffect(() => {
-    fetchSiteDatas()
+    fetchPageData()
+    fetchSectionData()
+    fetchSocials()
   }, [])
 
-  async function  fetchSiteDatas() {
-    const apiData = await API.graphql({ query: listSiteDatas })
-    setSiteDatas(apiData.data.listSiteDatas.items) // limit to one result
+  async function fetchPageData() {
+    try {
+      const apiResponse = await API.graphql(graphqlOperation(getPage, {id: "96cb34f8-6d8f-43fc-a19a-1bd1b42320ea"}))
+      const apiData = apiResponse.data.getPage
+      setPageData(apiData)
+    } catch (err) {
+      console.log("Error in fetchPageData: ", err)
+    }
   }
 
-  console.log(siteDatas)
+  async function fetchSectionData() {
+    try {
+      const apiResponseProjects = await API.graphql(graphqlOperation(sectionByNameExpanded, {name: "projects"}))
+      const apiResponseCharity = await API.graphql(graphqlOperation(sectionByNameExpanded, {name: "charities"}))
+      const apiResponseFacts = await API.graphql(graphqlOperation(sectionByNameExpanded, {name: "fun-facts"}))
+      var moddedFacts = apiResponseFacts.data.sectionByName.items[0]
+      moddedFacts.paras = [shuffleArray(apiResponseFacts.data.sectionByName.items[0].paras)[0]]
+      const setMe = {
+        projects: apiResponseProjects.data.sectionByName.items[0],
+        charities: apiResponseCharity.data.sectionByName.items[0],
+        funFacts: moddedFacts
+      }
+      setSectionData(setMe)
+    } catch(err) {
+      console.log("Error in fetchSectionData: ", err)
+    }
+  }
 
-  return (
-    <div className="App">
-        <div id="sky"></div>
-        <Parallax pages={1.3}>
-        <ParallaxLayer offset={.1} speed={.15}>
-            <CloudsOne className="svg-bg" />
-          </ParallaxLayer>
-        <ParallaxLayer offset={.15} speed={.25}>
-            <MountainRangeTwo className="svg-bg" />
-          </ParallaxLayer>
-        <ParallaxLayer offset={.2} speed={.5}>
-            <MountainRangeOne className="svg-bg" />
-          </ParallaxLayer>
-          <ParallaxLayer offset={0} speed={-1}>
-          <h1 className="title">develop<br/>differently.</h1>
-        </ParallaxLayer>
-          <ParallaxLayer offset={.3}  speed={.75}>
-            <TreeLineOne className="svg-bg" />
-          </ParallaxLayer>
-          <ParallaxLayer offset={.3} speed={1}>
-            <div>
-              <TreeLineTwo style={{marginBottom: "-1em"}} className="svg-bg" />
-            </div>
-            <main>
-              <p className="para">
-                Sorry, Otho is currently not onboarding new clients... But while
-                you're here, take a look at some awesome stuff below!
-              </p>
-              <ModalRow rowId={0} />
-              <ModalRow rowId={1} />
-              <div className="section">
-                <h2 className="title">This is a header</h2>
-                <FontAwesomeIcon className="lightblue-txt rotatable" icon="sync-alt" />
-                <div className="center">
-                  <p className="para">
-                    This is a paragraph
-                  </p>
-                </div>
-              </div>
-            </main>
-            <Footer />
-          </ParallaxLayer>
+  async function fetchSocials() {
+    try {
+      const apiResponse = await API.graphql({ query: listSocialMedias })
+      setSocialData(apiResponse.data.listSocialMedias.items)
+    } catch(err) {
+      console.log("Error in fetchSocials: ", err)
+    }
+  }
 
-        </Parallax>
+  const bgData = {
+    pageTitle: pageData.title || "",
+    ownerFormal: pageData.site && pageData.site.ownerFormal ? (pageData.site.ownerFormal) : "",
+    ownerCasual: pageData.site && pageData.site.ownerCasual ? (pageData.site.ownerCasual) : "",
+    year: new Date().getFullYear(),
+    socials: socialData
+  }
+    
+  return(
+    <div className="App" id="App">
+      <ParallaxBackground data={bgData}>
+        <div>
+          {
+            pageData.alert && pageData.alert.length > 0 ? (<p className="para">{pageData.alert}</p>) : ""
+          }
+        </div>
+        <Section data={sectionData.projects}>
+            {
+              sectionData.projects.modals && sectionData.projects.modals.items.length > 0 ? (
+                shuffleArray(sectionData.projects.modals.items).slice(0,3).map((modal,i) => {
+                  return <LinkBox data={modal.modal} key={i} />
+                })
+              ) : ""
+            }
+          </Section>
+          <Section data={sectionData.charities}>
+            {
+              sectionData.charities.modals && sectionData.charities.modals.items.length > 0 ? (
+                shuffleArray(sectionData.charities.modals.items).slice(0,3).map((modal,i) => {
+                  return <LinkBox data={modal.modal} key={i} />
+                })
+              ) : ""
+            }
+          </Section>
+          <Section data={sectionData.funFacts}>
+              <small className="para"><b>Pro tip:</b> Refresh to see a new fact!</small>
+          </Section>
+      </ParallaxBackground>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

@@ -10,7 +10,9 @@ type SiteData @model {
   pages: [Page] @connection(name: "SitePages")
 }
 
-type Page @model {
+type Page @model 
+  @key(name: "pageByEndpoint", fields: ["endpoint"], queryField: "pageByEndpoint")
+  {
   id: ID!
   name: String!
   site: SiteData @connection(name: "SitePages")
@@ -18,11 +20,14 @@ type Page @model {
   public: Boolean!
   title: String
   alert: String
-  endpoint: String
+  endpoint: String!
   sections: [Section] @connection(name: "PageSections")
 }
 
-type Section @model {
+type Section 
+  @model
+  @key(name: "sectionByName", fields: ["name"], queryField: "sectionByName")
+  {
   id: ID!
   name: String!
   page: Page @connection(name: "PageSections")
@@ -30,6 +35,11 @@ type Section @model {
   title: String
   paras: [String]
   modals: [SectionModal] @connection(keyName: "bySection", fields: ["id"])
+  sectionClass: String
+  contentClass: String
+  parasClass: String
+  subtitleClass: String
+  refresh: Boolean
 } 
 
 type SectionModal 
@@ -44,7 +54,9 @@ type SectionModal
   modal: Modal! @connection(fields: ["modalID"])
 }
 
-type Modal @model {
+type Modal 
+  @model 
+  {
   id: ID!
   name: String!
   description: String
@@ -54,14 +66,17 @@ type Modal @model {
   cta: String
   image: String 
   sections: [SectionModal] @connection(keyName: "byModal", fields: ["id"])
-  sidebarID: ID!
-  sidebar: ModalSidebar @connection(fields: ["sidebarID"])
+  sidebars: [ModalSidebar] @connection(name: "ModalSidebars")
 }
 
-type ModalSidebar @model {
+type ModalSidebar 
+  @model 
+  @key(name: "sidebarByName", fields: ["name"], queryField: "sidebarByName")
+  {
   id: ID!
   name: String!
   title: String
+  modal: Modal @connection(name: "ModalSidebars")
   iconItems: [ModalIcon] @connection(keyName: "bySidebar", fields: ["id"])
 }
 
