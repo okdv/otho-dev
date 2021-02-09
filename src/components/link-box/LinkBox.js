@@ -139,6 +139,7 @@ const LinkBox = (props) => {
                 </div>
                 <br />
                 <ModalContent modalData={props.data} />
+                <br />
                 <div className="center">
                     <a href={props.data.link}>
                         <button className="white-txt btn">{props.data.cta && props.data.cta != null ? props.data.cta : "See more"}</button>

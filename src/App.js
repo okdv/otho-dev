@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import ParallaxBackground from "./components/parallax-background/ParallaxBackground"
 import Section from "./components/section/Section"
 import LinkBox from "./components/link-box/LinkBox"
+import DocumentMeta from "react-document-meta"
 
 import "./App.css";
 import "./utils/helpers"
@@ -86,38 +87,49 @@ function App() {
     year: new Date().getFullYear(),
     socials: socialData
   }
+
+  const meta = {
+    title: "Hi, I'm Otho! Welcome to my portfolio!",
+    description: "This is the portfolio and contract services website for me (Otho DuBois). Come learn a little about me and my work, and see how you can get in touch!",
+    canonical: "https://www.othodubois.com",
+    meta: {
+      charset: 'utf-8'
+    }
+  }
     
   return(
-    <div className="App" id="App">
-      <ParallaxBackground data={bgData}>
-        <div>
-          {
-            pageData.alert && pageData.alert.length > 0 ? (<p className="para">{pageData.alert}</p>) : ""
-          }
-        </div>
-        <Section data={sectionData.projects}>
+    <DocumentMeta {...meta}>
+      <div className="App" id="App">
+        <ParallaxBackground data={bgData}>
+          <div>
             {
-              sectionData.projects.modals && sectionData.projects.modals.items.length > 0 ? (
-                shuffleArray(sectionData.projects.modals.items).slice(0,3).map((modal,i) => {
-                  return <LinkBox data={modal.modal} key={i} />
-                })
-              ) : ""
+              pageData.alert && pageData.alert.length > 0 ? (<p className="para">{pageData.alert}</p>) : ""
             }
-          </Section>
-          <Section data={sectionData.charities}>
-            {
-              sectionData.charities.modals && sectionData.charities.modals.items.length > 0 ? (
-                shuffleArray(sectionData.charities.modals.items).slice(0,3).map((modal,i) => {
-                  return <LinkBox data={modal.modal} key={i} />
-                })
-              ) : ""
-            }
-          </Section>
-          <Section data={sectionData.funFacts}>
-              <small className="para"><b>Pro tip:</b> Refresh to see a new fact!</small>
-          </Section>
-      </ParallaxBackground>
-    </div>
+          </div>
+          <Section data={sectionData.projects}>
+              {
+                sectionData.projects.modals && sectionData.projects.modals.items.length > 0 ? (
+                  shuffleArray(sectionData.projects.modals.items).slice(0,3).map((modal,i) => {
+                    return <LinkBox data={modal.modal} key={i} />
+                  })
+                ) : ""
+              }
+            </Section>
+            <Section data={sectionData.charities}>
+              {
+                sectionData.charities.modals && sectionData.charities.modals.items.length > 0 ? (
+                  shuffleArray(sectionData.charities.modals.items).slice(0,3).map((modal,i) => {
+                    return <LinkBox data={modal.modal} key={i} />
+                  })
+                ) : ""
+              }
+            </Section>
+            <Section data={sectionData.funFacts}>
+                <small className="para"><b>Pro tip:</b> Refresh to see a new fact!</small>
+            </Section>
+        </ParallaxBackground>
+      </div>
+    </DocumentMeta>
   )
 }
 
